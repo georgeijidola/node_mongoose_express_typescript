@@ -1,0 +1,63 @@
+{
+  "name": "node_mongoose_express_typescript",
+  "version": "1.0.0",
+  "description": "Bulletproof project architecture for Node Mongoose Express and Typescript stack.",
+  "main": "build/Server.js",
+  "scripts": {
+    "clean": "rm -rf build",
+    "build": "npm run clean && npx tsc",
+    "db:seed": "npm run build && node build/source/db/Index.js -i",
+    "db:seed:delete": "npm run build && node build/source/db/Index.js -d",
+    "db:truncate": "npm run build && node build/source/db/Index.js -c",
+    "start": "npm run db:seed && node build/Cluster.js",
+    "test:unit": "set NODE_ENV=test && npm run db:seed && jest --testPathPattern='Unit.test.js'",
+    "test:integration": "set NODE_ENV=test && npm run db:seed && jest --testPathPattern='Integration.test.js'",
+    "test": "npm run test:unit && npm run test:integration",
+    "development": "npm run build && node build/Cluster.js",
+    "inspect": "npm run development && node --inspect build/Cluster.js",
+    "dev": "nodemon --watch . -e ts,json --exec npm run development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgeijidola/node_mongoose_express_typescript.git"
+  },
+  "author": "George Ijidola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgeijidola/node_mongoose_express_typescript/issues"
+  },
+  "homepage": "https://github.com/georgeijidola/node_mongoose_express_typescript#readme",
+  "dependencies": {
+    "@sentry/node": "^6.8.0",
+    "@sentry/tracing": "^6.8.0",
+    "@types/cors": "^2.8.11",
+    "@types/express": "^4.17.13",
+    "@types/express-rate-limit": "^5.1.3",
+    "@types/hpp": "^0.2.1",
+    "@types/jest": "^26.0.24",
+    "@types/jsonwebtoken": "^8.5.4",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^16.0.1",
+    "@types/nodemailer": "^6.4.3",
+    "@types/supertest": "^2.0.11",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.1.0",
+    "express-rate-limit": "^5.2.6",
+    "helmet": "^4.6.0",
+    "hpp": "^0.2.3",
+    "jest": "^27.0.6",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.14",
+    "nodemailer": "^6.6.2",
+    "supertest": "^6.1.3",
+    "ts-jest": "^27.0.3",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
