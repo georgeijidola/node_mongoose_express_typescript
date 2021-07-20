@@ -1,14 +1,14 @@
 interface pagination {
   nextPage?: {
     page: number
-    limit: number
+    docsLeft: number
   }
   previousPage?: {
     page: number
-    limit: number
   }
+  limit: number
   currentPage: number
-  totalCounts: number
+  totalDocs: number
   totalPages: number
 }
 

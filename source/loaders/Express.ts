@@ -14,7 +14,6 @@ import apiCheck from "../api/middlewares/APICheck"
 
 const expressLoader = () => {
   const app = express()
-  // TODO: Add Api key check.
 
   // Useful if you're behind a reverse proxy (Heroku, AWS ELB, Nginx, etc)
   // It shows the real origin IP in the heroku or Cloudwatch logs

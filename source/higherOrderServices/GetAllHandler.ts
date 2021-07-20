@@ -51,50 +51,50 @@ const GetAllHandler = async ({
       select,
     })
 
+    const page = parseInt(query.page!) || 1
+    const limit = parseInt(query.limit!) || 50
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+
+    dbQuery = dbQuery.skip(startIndex).limit(limit)
+
     // Pagination
     const [total, data] = await Promise.all([
       model.countDocuments(requestQuery),
       // Executing query
       lean ? await dbQuery.lean() : await dbQuery,
     ])
-    const page = parseInt(query.page!) || 1
-    const limit = parseInt(query.limit!) || 50
-    const startIndex = (page === 1 ? 1 : page - 1) * limit
-    const endIndex = page * limit
-
-    dbQuery = dbQuery.skip(startIndex).limit(limit)
 
     // Pagination result
     let pagination = {
       nextPage: {
         page: 0,
-        limit: 0,
+        docsLeft: 0,
       },
       previousPage: {
         page: 0,
-        limit: 0,
       },
+      limit,
       currentPage: 0,
-      totalCounts: 0,
+      totalDocs: 0,
       totalPages: 0,
     }
 
     if (endIndex < total) {
       pagination.nextPage = {
         page: page + 1,
-        limit,
+        docsLeft: total - endIndex,
       }
     }
 
-    if (startIndex > 0) {
+    if (startIndex < limit) {
       pagination.previousPage = {
         page: page - 1,
-        limit,
       }
     }
 
     pagination.currentPage = page
-    pagination.totalCounts = total
+    pagination.totalDocs = total
     pagination.totalPages = Math.round(total / limit)
 
     // return data
